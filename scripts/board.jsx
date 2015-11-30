@@ -1,6 +1,7 @@
 /**
  * @jsx React.DOM
  */
+console.log("here");
 define(['react', 'reactDom'], function(React,ReactDom){
     var dimm =3,
         moves = {
@@ -66,6 +67,7 @@ define(['react', 'reactDom'], function(React,ReactDom){
                     j,
                     cell;
                 for(i=0;i<dimm;i++){
+                    last = cells[i].value;
                     for(j=0;j<dimm;j++){
                         cell = cells[i+j*dimm];
                         if(cell.value && cell.value === last)  {
@@ -83,9 +85,52 @@ define(['react', 'reactDom'], function(React,ReactDom){
                 return win;
 
             }
-            function checkDiagonals(){
+            function checkMainDiagonal(cells){
+                var win = false,
+                    last,
+                    consequetive = 0,
+                    i,
+                    j,
+                    cell;
+                last = cells[0].value;
+                for(i=0;i<dimm;i++){
+                    cell = cells[i+dimm*i];
+                    if(cell.value && cell.value === last ) {
+                        consequetive++;
+                    } else {
+                        consequetive = 0;
+                    }
+                    last = cell.value;
+
+                }
+                if(consequetive === dimm -1){
+                    win = true;
+                }
+                return win;
             }
-            win = checkVerticals(this.state.cells)||checkHorizontals(this.state.cells);
+            function checkReversedDiagonal(cells){
+                var win = false,
+                    last,
+                    consequetive = 0,
+                    i,
+                    cell;
+                last = cells[dimm].value;
+                for(i=0;i<dimm;i++){
+                    cell = cells[dimm-i-1+dimm*i];
+                    if(cell.value && cell.value === last ) {
+                        consequetive++;
+                    } else {
+                        consequetive = 0;
+                    }
+                    last = cell.value;
+
+                }
+                if(consequetive === dimm -1){
+                    win = true;
+                }
+                return win;
+            }
+            win = checkReversedDiagonal(this.state.cells)||checkMainDiagonal(this.state.cells)||checkVerticals(this.state.cells)||checkHorizontals(this.state.cells);
 
             return win;
         },
