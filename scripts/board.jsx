@@ -7,15 +7,30 @@ define(['react', 'reactDom'], function(React,ReactDom){
             X:'X',
             O:'O'
         };
+    /**
+     * @class Board
+     * @type {Function|*}
+     * @description Provides main game component
+     */
     var Board = React.createClass({
+        /**
+         * @function playerMove
+         * @param position
+         * @description Handles players move
+         */
         playerMove: function(position){
             this.turn = !this.turn;
             this.state.cells[position].value = this.turn ? moves.X : moves.O;
-            console.log(this.checkState());
+            console.log(this.checkForWin());
             this.setState({tiles: this.state.cells, turn: this.turn});
 
         },
-        checkState : function(){
+        /**
+         * @function checkForWin
+         * @param position
+         * @description Checks game situation
+         */
+        checkForWin : function(){
             var win = false,
                 last,
                 beginRow,
@@ -41,6 +56,9 @@ define(['react', 'reactDom'], function(React,ReactDom){
             });
             return win;
         },
+        /**
+         * initial State for players turn
+         */
         turn:true,
         getInitialState: function() {
             var cells = [],
@@ -68,12 +86,21 @@ define(['react', 'reactDom'], function(React,ReactDom){
             );
         }
     });
+    /**
+     * @class Cell
+     * @type {Function|*}
+     * @descrition Component representing one board cell
+     */
     var Cell = React.createClass({
         render: function(){
             return (
                 <div className={this.props.value === moves.X ? "cell cell-x" : "cell cell-o"} onClick={this.clickHandler}>{this.props.value}</div>
             );
         },
+        /**
+         * @function clickHandler
+         * @descrition Handles user click on cell
+         */
         clickHandler:function(){
 
             if(!this.props.value){
@@ -82,6 +109,11 @@ define(['react', 'reactDom'], function(React,ReactDom){
 
         }
     });
+    /**
+     * @class Menu
+     * @type {Function|*}
+     * @descrition Component representing game menu
+     */
     var Menu = React.createClass({
         render: function(){
             return (
