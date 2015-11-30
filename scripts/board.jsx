@@ -31,29 +31,62 @@ define(['react', 'reactDom'], function(React,ReactDom){
          * @description Checks game situation
          */
         checkForWin : function(){
-            var win = false,
-                last,
-                beginRow,
-                consequetive;
-            this.state.cells.forEach(function(cell){
-                if((cell.key % dimm) === 0) {
-                    beginRow = true;
-                }
-                if(cell.value && cell.value == last ) {
-                    consequetive++;
-                } else {
+            var win;
+            function checkHorizontals(cells){
+                var win = false,
+                    last,
+                    beginRow,
                     consequetive = 0;
+                cells.forEach(function(cell){
+                    if((cell.key % dimm) === 0) {
+                        beginRow = true;
+                    }
+                    if(cell.value && cell.value == last ) {
+                        consequetive++;
+                    } else {
+                        consequetive = 0;
+                    }
+                    if(consequetive === dimm -1 ){
+                        win = true;
+                        return false;
+                    }
+                    if((cell.key % dimm) === dimm-1) {
+                        beginRow = false;
+                        consequetive = 0 ;
+                    }
+                    last = cell.value;
+                });
+                return win;
+            }
+            function checkVerticals(cells){
+                var win = false,
+                    last,
+                    consequetive = 0,
+                    i,
+                    j,
+                    cell;
+                for(i=0;i<dimm;i++){
+                    for(j=0;j<dimm;j++){
+                        cell = cells[i+j*dimm];
+                        if(cell.value && cell.value === last)  {
+                            consequetive++;
+                        } else {
+                            consequetive=0;
+                        }
+                        last = cell.value;
+                    }
+                    if(consequetive === dimm -1){
+                        win = true;
+                        break;
+                    }
                 }
-                if(consequetive === dimm -1 ){
-                    win = true;
-                    return false;
-                }
-                if((cell.key % dimm) === dimm-1) {
-                    beginRow = false;
-                    consequetive = 0 ;
-                }
-                last = cell.value;
-            });
+                return win;
+
+            }
+            function checkDiagonals(){
+            }
+            win = checkVerticals(this.state.cells)||checkHorizontals(this.state.cells);
+
             return win;
         },
         /**
