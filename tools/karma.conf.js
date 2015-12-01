@@ -15,6 +15,8 @@ module.exports = function(config) {
     files: [
         'tests/main-test.js',
       {pattern: 'libs/react-0.14.3/build/*.js', included:false},
+      {pattern: 'libs/react-0.14.3/build/react-dom.js', included:false},
+      {pattern: 'scripts/*.js', included:false},
       {pattern: 'tools/build_jsx/**/*.js', included:false},
       {pattern: 'tests/**/*.js', included:false}
     ],

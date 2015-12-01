@@ -1,29 +1,44 @@
 /**
  * @jsx React.DOM
  */
-console.log("here");
-define(['react', 'reactDom'], function(React,ReactDom){
-    var dimm =3,
+define(['react', 'reactDom', 'logic'], function(React,ReactDom, Logic){
+    var dimm =Logic.dimm,
         moves = {
-            X:'X',
-            O:'O'
-        };
+            X:Logic.X,
+            O:Logic.O
+        },
+        Board,
+        Cell,
+        Menu;
     /**
      * @class Board
      * @type {Function|*}
      * @description Provides main game component
      */
-    var Board = React.createClass({
+    Board = React.createClass({
         /**
          * @function playerMove
          * @param position
          * @description Handles players move
          */
         playerMove: function(position){
-            this.turn = !this.turn;
-            this.state.cells[position].value = this.turn ? moves.X : moves.O;
-            console.log(this.checkForWin());
-            this.setState({tiles: this.state.cells, turn: this.turn});
+            //
+            //If we have win or draw , we stop accepting clicks
+            if(this.state.win !== false) {
+                return;
+            }
+            var win;
+            this.state.cells[position].value = this.state.turn ? moves.O : moves.X ;
+            win = this.checkForWin(this.state.cells);
+            //
+            //Only change turn when we do not have win
+
+            if(win === false) {
+                this.state.turn = !this.state.turn;
+            }
+            this.state.win = win;
+            this.setState({tiles: this.state.cells, turn: this.state.turn, win:this.state.win});
+
 
         },
         /**
@@ -31,113 +46,10 @@ define(['react', 'reactDom'], function(React,ReactDom){
          * @param position
          * @description Checks game situation
          */
-        checkForWin : function(){
-            var win;
-            function checkHorizontals(cells){
-                var win = false,
-                    last,
-                    beginRow,
-                    consequetive = 0;
-                cells.forEach(function(cell){
-                    if((cell.key % dimm) === 0) {
-                        beginRow = true;
-                    }
-                    if(cell.value && cell.value == last ) {
-                        consequetive++;
-                    } else {
-                        consequetive = 0;
-                    }
-                    if(consequetive === dimm -1 ){
-                        win = true;
-                        return false;
-                    }
-                    if((cell.key % dimm) === dimm-1) {
-                        beginRow = false;
-                        consequetive = 0 ;
-                    }
-                    last = cell.value;
-                });
-                return win;
-            }
-            function checkVerticals(cells){
-                var win = false,
-                    last,
-                    consequetive = 0,
-                    i,
-                    j,
-                    cell;
-                for(i=0;i<dimm;i++){
-                    last = cells[i].value;
-                    for(j=0;j<dimm;j++){
-                        cell = cells[i+j*dimm];
-                        if(cell.value && cell.value === last)  {
-                            consequetive++;
-                        } else {
-                            consequetive=0;
-                        }
-                        last = cell.value;
-                    }
-                    if(consequetive === dimm -1){
-                        win = true;
-                        break;
-                    }
-                }
-                return win;
-
-            }
-            function checkMainDiagonal(cells){
-                var win = false,
-                    last,
-                    consequetive = 0,
-                    i,
-                    j,
-                    cell;
-                last = cells[0].value;
-                for(i=0;i<dimm;i++){
-                    cell = cells[i+dimm*i];
-                    if(cell.value && cell.value === last ) {
-                        consequetive++;
-                    } else {
-                        consequetive = 0;
-                    }
-                    last = cell.value;
-
-                }
-                if(consequetive === dimm -1){
-                    win = true;
-                }
-                return win;
-            }
-            function checkReversedDiagonal(cells){
-                var win = false,
-                    last,
-                    consequetive = 0,
-                    i,
-                    cell;
-                last = cells[dimm].value;
-                for(i=0;i<dimm;i++){
-                    cell = cells[dimm-i-1+dimm*i];
-                    if(cell.value && cell.value === last ) {
-                        consequetive++;
-                    } else {
-                        consequetive = 0;
-                    }
-                    last = cell.value;
-
-                }
-                if(consequetive === dimm -1){
-                    win = true;
-                }
-                return win;
-            }
-            win = checkReversedDiagonal(this.state.cells)||checkMainDiagonal(this.state.cells)||checkVerticals(this.state.cells)||checkHorizontals(this.state.cells);
-
-            return win;
-        },
+        checkForWin : Logic.checkForWin,
         /**
          * initial State for players turn
          */
-        turn:true,
         getInitialState: function() {
             var cells = [],
                 i;
@@ -146,13 +58,15 @@ define(['react', 'reactDom'], function(React,ReactDom){
             }
             return {
 
-                cells:  cells
+                cells:  cells,
+                turn: true,
+                win: false
             };
         },
         render: function(){
             return (
                 <div id="main-container">
-                    <Menu turn={this.turn}/>
+                    <Menu turn={this.state.turn} win={this.state.win}/>
                     <div id="board" >{ this.state.cells.map(function(cell){
                         return (
                             <Cell key={cell.id} position={cell.id} value={cell.value} playerMove={this.playerMove}/>
@@ -169,7 +83,7 @@ define(['react', 'reactDom'], function(React,ReactDom){
      * @type {Function|*}
      * @descrition Component representing one board cell
      */
-    var Cell = React.createClass({
+    Cell = React.createClass({
         render: function(){
             return (
                 <div className={this.props.value === moves.X ? "cell cell-x" : "cell cell-o"} onClick={this.clickHandler}>{this.props.value}</div>
@@ -192,16 +106,22 @@ define(['react', 'reactDom'], function(React,ReactDom){
      * @type {Function|*}
      * @descrition Component representing game menu
      */
-    var Menu = React.createClass({
+    Menu = React.createClass({
         render: function(){
             return (
-                <div id="menu">
+                <div id="menu" className={ this.props.win === true ? "win" : "" }>
+
                     <div className={ this.props.turn ? "player active" : "player" }>O</div>
                     <div className={ this.props.turn ? "player" : "player active" }>X</div>
+                    <div className={ this.props.win === undefined ? "shown draw" : "hidden draw" }>DRAW</div>
                 </div>
             );
         }
     });
-    ReactDom.render(<Board name="Board" />, document.getElementById('mount-point'));
+    function render(containerId) {
+        return ReactDom.render(<Board name="Board" />, document.getElementById(containerId));
+
+    }
+    return render;
 
 });

@@ -35,6 +35,19 @@
     height: 120px;
     width: 200px;
 }
+#menu.win .player.active{
+    background: green;
+}
+.draw {
+    text-align: center;
+    font-size: 30px;
+}
+.hidden {
+    display : none;
+}
+.shown {
+    display : block;
+}
 #main-container {
     height:100%;
     width:100%;

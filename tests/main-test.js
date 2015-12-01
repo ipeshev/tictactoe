@@ -6,7 +6,6 @@ var TEST_REGEXP = /(Spec|_test)\.js$/i;
 for (var file in window.__karma__.files) {
     if (TEST_REGEXP.test(file)) allTestFiles.push(file);
 }
-console.log(allTestFiles);
 require.config({
     baseUrl: 'base/',
     deps: allTestFiles,
@@ -19,6 +18,7 @@ require.config({
         "react": {
             "exports": "React"
         },
+        "reactDom":['react']
         //"JSXTransformer": "JSXTransformer"
     }
 });
