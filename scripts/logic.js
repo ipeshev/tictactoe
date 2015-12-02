@@ -16,24 +16,9 @@ define([],function(){
          * @returns {boolean}
          */
         self.checkHorizontals = function checkHorizontals(cells){
-            var last,
-                consequetive = 0,
-                i,
-                j,
-                cell;
-            for(i=0; i<dimm; i++){
-                last = cells[i*dimm].value;
-                consequetive=0;
-                for(j=0; j<dimm; j++){
-                    cell = cells[ i * dimm + j];
-                    if(cell.value && cell.value === last)  {
-                        consequetive++;
-                    } else {
-                        consequetive=0;
-                    }
-                    last = cell.value;
-                }
-                if(consequetive === dimm){
+            var i;
+            for(i=0; i<dimm*dimm; i = i + dimm) {
+                if(cells[i].value && (cells[i].value == cells[i+1].value) && (cells[i].value == cells[i+2].value)) {
                     return true;
                 }
             }
@@ -47,29 +32,13 @@ define([],function(){
          * @returns {boolean}
          */
         self.checkVerticals = function checkVerticals(cells){
-            var last,
-                consequetive = 0,
-                i,
-                j,
-                cell;
-            for(i=0; i<dimm; i++){
-                last = cells[i].value;
-                consequetive=0;
-                for(j=0; j<dimm; j++){
-                    cell = cells[i+j*dimm];
-                    if(cell.value && cell.value === last)  {
-                        consequetive++;
-                    } else {
-                        consequetive=0;
-                    }
-                    last = cell.value;
-                }
-                if(consequetive === dimm){
+            var i;
+            for(i=0; i<dimm; i++) {
+                if(cells[i].value && (cells[i].value == cells[i + dimm].value) && (cells[i].value == cells[i + dimm*2].value)) {
                     return true;
                 }
             }
             return false;
-
         };
 
         /**
@@ -79,27 +48,11 @@ define([],function(){
          * @returns {boolean}
          */
         self.checkMainDiagonal = function checkMainDiagonal(cells){
-            var win = false,
-                last,
-                consequetive = 0,
-                i,
-                j,
-                cell;
-            last = cells[0].value;
-            for(i=0;i<dimm;i++){
-                cell = cells[i+dimm*i];
-                if(cell.value && cell.value === last ) {
-                    consequetive++;
-                } else {
-                    consequetive = 0;
-                }
-                last = cell.value;
-
+            var i = 0;
+            if(cells[i].value && (cells[i].value == cells[i + dimm + 1 ].value) && (cells[i].value == cells[i + dimm*2 + 2].value)) {
+                return true;
             }
-            if(consequetive === dimm){
-                win = true;
-            }
-            return win;
+            return false;
         };
 
         /**
@@ -109,26 +62,11 @@ define([],function(){
          * @returns {boolean}
          */
         self.checkReversedDiagonal = function checkReversedDiagonal(cells){
-            var win = false,
-                last,
-                consequetive = 0,
-                i,
-                cell;
-            last = cells[dimm-1].value;
-            for(i=0;i<dimm;i++){
-                cell = cells[dimm-i-1+dimm*i];
-                if(cell.value && cell.value === last ) {
-                    consequetive++;
-                } else {
-                    consequetive = 0;
-                }
-                last = cell.value;
-
+            var i = 0;
+            if(cells[i + 2].value && (cells[i + 2].value == cells[i + dimm + 1 ].value) && (cells[i + 2 ].value == cells[i + dimm*2].value)) {
+                return true;
             }
-            if(consequetive === dimm){
-                win = true;
-            }
-            return win;
+            return false;
         };
 
         /**
@@ -144,10 +82,9 @@ define([],function(){
                     empty = true;
                     return false;
                 }
-            })
+            });
             return empty;
         };
-
         /**
          * @function checkForWin
          * @description checks for win on the board
@@ -164,7 +101,7 @@ define([],function(){
                 return undefined;
             }
             return win;
-        }
+        };
     };
     return new Logic();
 });

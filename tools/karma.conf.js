@@ -17,8 +17,7 @@ module.exports = function(config) {
       {pattern: 'libs/react-0.14.3/build/*.js', included:false},
       {pattern: 'libs/react-0.14.3/build/react-dom.js', included:false},
       {pattern: 'scripts/*.js', included:false},
-      {pattern: 'tools/build_jsx/**/*.js', included:false},
-      {pattern: 'tests/**/*.js', included:false}
+      {pattern: 'tests/*.js', included:false}
     ],
 
 
@@ -30,12 +29,7 @@ module.exports = function(config) {
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress', 'dots'],
-
-    junitReporter: {
-      outputFile: 'func_tests/reports/karma-test-results.xml',
-      suite: ''
-    },
+    reporters: ['progress'],
 
     // web server port
     port: 9876,
@@ -66,11 +60,11 @@ module.exports = function(config) {
 
 
     // If browser does not capture in given timeout [ms], kill it
-    captureTimeout: 60000,
+    captureTimeout: 100000,
 
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false
+    singleRun: true
   });
 };

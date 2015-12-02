@@ -8,11 +8,10 @@ for (var file in window.__karma__.files) {
 }
 require.config({
     baseUrl: 'base/',
-    deps: allTestFiles,
-    callback: window.__karma__.start,
+
     paths: {
-        'react': "libs/react-0.14.3/build/react-with-addons",
-        'reactDom': "libs/react-0.14.3/build/react-dom"
+        'react': "../libs/react-0.14.3/build/react-with-addons",
+        'reactDom': "../libs/react-0.14.3/build/react-dom"
     },
     shim : {
         "react": {
@@ -20,5 +19,7 @@ require.config({
         },
         "reactDom":['react']
         //"JSXTransformer": "JSXTransformer"
-    }
+    },
+    deps: allTestFiles,
+    callback: window.__karma__.start
 });
