@@ -6,6 +6,7 @@ require.config({
     paths:{
         'react': "../libs/react-0.14.3/build/react-with-addons",
         'reactDom': "../libs/react-0.14.3/build/react-dom",
+        'router': "../libs/react-0.14.3/build/ReactRouter.min",
         'logic': "../scripts/logic",
         'JSXTransformer': "../libs/JSXTransformer",
         'jsx': "../libs/jsx",
@@ -30,6 +31,6 @@ require.config({
     }
 
 });
-define(['jsx!board'],function(board){
-    board('mount-point');
+define(['jsx!app'],function(app){
+    app('mount-point');
 });

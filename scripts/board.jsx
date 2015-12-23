@@ -122,6 +122,6 @@ define(['react', 'reactDom', 'logic'], function(React,ReactDom, Logic){
         return ReactDom.render(<Board name="Board" />, document.getElementById(containerId));
 
     }
-    return render;
+    return Board;
 
 });
