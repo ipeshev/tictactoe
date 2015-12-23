@@ -13,18 +13,16 @@ define(['react','text!../stats.json'], function(React,stats){
          * initial State for players turn
          */
         getInitialState: function() {
-            console.log(JSON.parse(stats));
             return {
-
                 stats:  JSON.parse(stats)
             };
         },
         render: function(){
             return (
                 <div id="stats">
-                    <div id="board" >{ this.state.stats.map(function(stat,idx){
+                    <div>{ this.state.stats.map(function(stat,idx){
                         return (
-                            <div key={idx}>
+                            <div key={idx} className="stat-row">
                                 {stat.played}:{stat.winner}
                             </div>
                         );

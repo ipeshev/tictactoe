@@ -1,25 +1,33 @@
-define(['react','reactDom','router','jsx!board','jsx!stats'],function(React,ReactDom,Router,Board,Stats){
-    var App = React.createClass({
+define(['react','reactDom','router','jsx!board','jsx!stats'],function(React,ReactDom,ReactRouter,Board,Stats){
+    var App,
+        Route = ReactRouter.Route,
+        Link = ReactRouter.Link,
+        Router = ReactRouter.Router;
+    console.log(Stats);
+    App = React.createClass({
         render:function(){
-            console.log(this.props);
             return (
+                <div>
                 <nav>
                     <ul>
-                        <li><Router.Link to="/board">Board</Router.Link></li>
-                        <li><Router.Link to="/stats">Inbox</Router.Link></li>
+                        <li><Link to="/board" activeClassName='active'>Board</Link></li>
+                        <li><Link to="/stats" activeClassName='active' >Stats</Link></li>
                     </ul>
-                {this.props.children}
+
                 </nav>
+                {this.props.children}
+                </div>
             )
         }
     });
     function render(containerId) {
-        return ReactDom.render(<Router.Router>
-            <Router.Route path="/" component={App}>
-                <Router.Route path="board" component={Board} />
-                <Router.Route path="stats" component={Stats} />
-            </Router.Route>
-        </Router.Router>, document.getElementById(containerId));
+        return ReactDom.render(
+            <Router>
+                <Route name="root" path="/" component={App}>
+                    <Route name="board" path="board" component={Board} />
+                    <Route name="stats" path="stats" component={Stats} />
+                </Route>
+            </Router>, document.getElementById(containerId));
 
     }
     return render;

@@ -57,7 +57,6 @@ define(['react', 'reactDom', 'logic'], function(React,ReactDom, Logic){
                 cells.push({id:i});
             }
             return {
-
                 cells:  cells,
                 turn: true,
                 win: false

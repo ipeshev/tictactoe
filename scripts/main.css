@@ -1,3 +1,8 @@
+nav {
+    text-align: center;
+    height:auto;
+    margin:10px;
+}
 nav ul {
     list-style: none;
     padding: 0;
@@ -5,23 +10,39 @@ nav ul {
 }
 nav li {
     display: inline;
+
+    margin: 0 5px 0 0;
+
+}
+nav li a {
     border: solid;
     border-width: 1px 1px 0 1px;
-    margin: 0 5px 0 0;
+    border-top-left-radius:3px;
+    border-top-right-radius:3px;
+    text-decoration:none;
+    padding: 2px 5px;
+    color:#000000;
+}
+nav li a.active {
+    background: #dddddd;
+}
+.stat-row {
+    font-size: 1.5em;
+    text-align: center;
 }
 #board {
-    width:450px;
-    height:450px;
+    width:9em;
+    height:auto;
+    font-size:3em;
     border:1px solid black;
     margin:0 auto;
 }
 .cell {
-    width:150px;
-    height:150px;
+    width:3em;
+    height:3em;
     float:left;
     outline:1px solid black;
-    line-height: 148px;
-    font-size:50px;
+    line-height: 3em;
     vertical-align: middle;
     text-align: center;
 }
