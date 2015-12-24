@@ -1,6 +1,6 @@
 # tictactoe
 Simple TicTacToe browser game, to run the game you need to set some http server either via VirtualHost either via Location
-
+Consist from two pages Board and Stats
 [Demo here](http://hubavineshta.com/tictactoe/index.html)
 
 Here is sample apache VirtualHost setting
