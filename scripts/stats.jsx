@@ -1,7 +1,7 @@
 /**
  * @jsx React.DOM
  */
-define(['react','text!../stats.json'], function(React,stats){
+define(['react'], function(React,stats){
     var Stats;
     /**
      * @class Stats
