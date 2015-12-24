@@ -1,20 +1,28 @@
-define(['react','reactDom','router','jsx!board','jsx!stats'],function(React,ReactDom,ReactRouter,Board,Stats){
+/**
+ * @jsx React.DOM
+ */
+/*global define:true */
+define(['react', 'reactDom', 'router', 'jsx!components/board', 'jsx!components/stats'], function (React, ReactDom, ReactRouter, Board, Stats) {
+    'use strict';
     var App,
         Route = ReactRouter.Route,
         Link = ReactRouter.Link,
         Router = ReactRouter.Router;
-    console.log(Stats);
     App = React.createClass({
-        render:function(){
+        render: function () {
             return (
                 <div>
-                <nav>
-                    <ul>
-                        <li><Link to="/board" activeClassName='active'>Board</Link></li>
-                        <li><Link to="/stats" activeClassName='active' >Stats</Link></li>
-                    </ul>
+                    <nav>
+                        <ul>
+                            <li>
+                                <Link to="/board" activeClassName='active'>Board</Link>
+                            </li>
+                            <li>
+                                <Link to="/stats" activeClassName='active' >Stats</Link>
+                            </li>
+                        </ul>
 
-                </nav>
+                    </nav>
                 {this.props.children}
                 </div>
             )
@@ -30,5 +38,6 @@ define(['react','reactDom','router','jsx!board','jsx!stats'],function(React,Reac
             </Router>, document.getElementById(containerId));
 
     }
+
     return render;
 });

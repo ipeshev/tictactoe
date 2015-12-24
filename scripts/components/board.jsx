@@ -1,7 +1,7 @@
 /**
  * @jsx React.DOM
  */
-define(['react', 'reactDom', 'logic'], function(React,ReactDom, Logic){
+define(['../../libs/react-0.14.3/build/react-with-addons', 'reactDom', 'logic'], function(React,ReactDom, Logic){
     var dimm =Logic.dimm,
         moves = {
             X:Logic.X,

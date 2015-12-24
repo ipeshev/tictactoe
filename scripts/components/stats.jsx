@@ -1,7 +1,9 @@
 /**
  * @jsx React.DOM
  */
-define(['react'], function(React,stats){
+/*global define:true */
+define(['react', 'stats'], function (React, Statistics) {
+    'use strict';
     var Stats;
     /**
      * @class Stats
@@ -14,10 +16,10 @@ define(['react'], function(React,stats){
          */
         getInitialState: function() {
             return {
-                stats:  JSON.parse(stats)
+                stats:  Statistics.getStats()
             };
         },
-        render: function(){
+        render: function () {
             return (
                 <div id="stats">
                     <div>{ this.state.stats.map(function(stat,idx){
