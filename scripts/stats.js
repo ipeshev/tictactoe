@@ -1,45 +1,40 @@
 /**
  * Created by ivan on 12/24/15.
  */
-define(['text!../stats.json'],function(data){
-    function Stats(){
+/*global define:true*/
+define(['text!../stats.json'], function (data) {
+    'use strict';
+    function Stats() {
         var self = this,
-            subscribers = [],
             stats;
-
-        stats = (function(){
-            try{
+        //
+        //Initialization of internal stats
+        stats = (function () {
+            try {
                 return JSON.parse(data);
-            }
-            catch(e){
+            } catch (e) {
                 return [];
             }
         }());
-
-        self.getStats = function(){
+        /**
+         * Getter
+         */
+        self.getStats = function () {
             return stats;
         };
+        /**
+         * @function addEntry
+         * @description Adds endgame entry
+         * @param winner
+         */
+        self.addEntry = function (winner) {
+            var d = new Date(),
+                datestring = d.getDate()  + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
 
-        self.addEntry = function(winner){
-            var date = new Date(),
-                datestring = d.getDate()  + "/" + (d.getMonth()+1) + "/" + d.getYear();
-                stats.push({
-                    winner:winner,
-                    played:datestring
-                });
-                notifySubscribers(stats);
-        };
-
-        function notifySubscribers(stats) {
-            subscribers.forEach(function(callback){
-               callback.call(null,stats);
+            stats.push({
+                winner: winner || 'Draw',
+                played: datestring
             });
-        }
-
-        self.subscribeForChange = function(callback){
-            if(subscribers.indexOf(callback) === -1) {
-                subscribers.push(callback);
-            }
         };
     }
     return new Stats();

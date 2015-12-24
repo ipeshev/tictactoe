@@ -1,8 +1,10 @@
 /**
  * Created by ivan on 11/30/15.
  */
-define([],function(){
-    function Logic () {
+/*global define:true*/
+define([], function () {
+    'use strict';
+    function Logic() {
         var self = this,
             dimm = 3;
         self.dimm = dimm;
@@ -15,10 +17,10 @@ define([],function(){
          * @param cells
          * @returns {boolean}
          */
-        self.checkHorizontals = function checkHorizontals(cells){
+        self.checkHorizontals = function checkHorizontals(cells) {
             var i;
-            for(i=0; i<dimm*dimm; i = i + dimm) {
-                if(cells[i].value && (cells[i].value == cells[i+1].value) && (cells[i].value == cells[i+2].value)) {
+            for (i = 0; i < dimm * dimm; i = i + dimm) {
+                if (cells[i].value && (cells[i].value === cells[i + 1].value) && (cells[i].value === cells[i + 2].value)) {
                     return true;
                 }
             }
@@ -31,10 +33,10 @@ define([],function(){
          * @param cells
          * @returns {boolean}
          */
-        self.checkVerticals = function checkVerticals(cells){
+        self.checkVerticals = function checkVerticals(cells) {
             var i;
-            for(i=0; i<dimm; i++) {
-                if(cells[i].value && (cells[i].value == cells[i + dimm].value) && (cells[i].value == cells[i + dimm*2].value)) {
+            for (i = 0; i < dimm; i = i + 1) {
+                if (cells[i].value && (cells[i].value === cells[i + dimm].value) && (cells[i].value === cells[i + dimm * 2].value)) {
                     return true;
                 }
             }
@@ -47,9 +49,9 @@ define([],function(){
          * @param cells
          * @returns {boolean}
          */
-        self.checkMainDiagonal = function checkMainDiagonal(cells){
+        self.checkMainDiagonal = function checkMainDiagonal(cells) {
             var i = 0;
-            if(cells[i].value && (cells[i].value == cells[i + dimm + 1 ].value) && (cells[i].value == cells[i + dimm*2 + 2].value)) {
+            if (cells[i].value && (cells[i].value === cells[i + dimm + 1].value) && (cells[i].value === cells[i + dimm * 2 + 2].value)) {
                 return true;
             }
             return false;
@@ -61,9 +63,9 @@ define([],function(){
          * @param cells
          * @returns {boolean}
          */
-        self.checkReversedDiagonal = function checkReversedDiagonal(cells){
+        self.checkReversedDiagonal = function checkReversedDiagonal(cells) {
             var i = 0;
-            if(cells[i + 2].value && (cells[i + 2].value == cells[i + dimm + 1 ].value) && (cells[i + 2 ].value == cells[i + dimm*2].value)) {
+            if (cells[i + 2].value && (cells[i + 2].value === cells[i + dimm + 1].value) && (cells[i + 2].value === cells[i + dimm * 2].value)) {
                 return true;
             }
             return false;
@@ -75,10 +77,10 @@ define([],function(){
          * @param cells
          * @returns {boolean}
          */
-        self.checkForEmpty = function checkForEmpty(cells){
+        self.checkForEmpty = function checkForEmpty(cells) {
             var empty = false;
-            cells.forEach(function(cell){
-                if(!cell.value){
+            cells.forEach(function (cell) {
+                if (!cell.value) {
                     empty = true;
                     return false;
                 }
@@ -91,17 +93,17 @@ define([],function(){
          * @param cells
          * @returns {boolean|undefined}
          */
-        self.checkForWin = function checkForWin(cells){
+        self.checkForWin = function checkForWin(cells) {
             var win;
-            win =   self.checkReversedDiagonal(cells)||
-                    self.checkMainDiagonal(cells)||
-                    self.checkVerticals(cells)||
-                    self.checkHorizontals(cells);
-            if(!win && !self.checkForEmpty(cells)){
+            win = self.checkReversedDiagonal(cells) ||
+                self.checkMainDiagonal(cells) ||
+                self.checkVerticals(cells) ||
+                self.checkHorizontals(cells);
+            if (!win && !self.checkForEmpty(cells)) {
                 return undefined;
             }
             return win;
         };
-    };
+    }
     return new Logic();
 });

@@ -1,11 +1,13 @@
 /**
  * @jsx React.DOM
  */
-define(['../../libs/react-0.14.3/build/react-with-addons', 'reactDom', 'logic'], function(React,ReactDom, Logic){
-    var dimm =Logic.dimm,
+/*global define:true */
+define(['react', 'reactDom', 'logic', 'stats'], function (React, ReactDom, Logic, Statistics) {
+    'use strict';
+    var dimm = Logic.dimm,
         moves = {
-            X:Logic.X,
-            O:Logic.O
+            X: Logic.X,
+            O: Logic.O
         },
         Board,
         Cell,
@@ -21,23 +23,25 @@ define(['../../libs/react-0.14.3/build/react-with-addons', 'reactDom', 'logic'],
          * @param position
          * @description Handles players move
          */
-        playerMove: function(position){
+        playerMove: function (position) {
             //
             //If we have win or draw , we stop accepting clicks
-            if(this.state.win !== false) {
+            if (this.state.win !== false) {
                 return;
             }
             var win;
-            this.state.cells[position].value = this.state.turn ? moves.O : moves.X ;
+            this.state.cells[position].value = this.state.turn ? moves.O : moves.X;
             win = this.checkForWin(this.state.cells);
             //
             //Only change turn when we do not have win
 
-            if(win === false) {
+            if (win === false) {
                 this.state.turn = !this.state.turn;
+            } else {
+                Statistics.addEntry(win && (this.state.turn ? moves.O : moves.X));
             }
             this.state.win = win;
-            this.setState({tiles: this.state.cells, turn: this.state.turn, win:this.state.win});
+            this.setState({tiles: this.state.cells, turn: this.state.turn, win: this.state.win});
 
 
         },
@@ -62,9 +66,9 @@ define(['../../libs/react-0.14.3/build/react-with-addons', 'reactDom', 'logic'],
                 win: false
             };
         },
-        render: function(){
+        render: function () {
             return (
-                <div id="main-container">
+                <div>
                     <Menu turn={this.state.turn} win={this.state.win}/>
                     <div id="board" >{ this.state.cells.map(function(cell){
                         return (

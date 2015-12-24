@@ -11,7 +11,7 @@ define(['react', 'reactDom', 'router', 'jsx!components/board', 'jsx!components/s
     App = React.createClass({
         render: function () {
             return (
-                <div>
+                <div id="main-container">
                     <nav>
                         <ul>
                             <li>

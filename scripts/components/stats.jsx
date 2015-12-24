@@ -14,14 +14,14 @@ define(['react', 'stats'], function (React, Statistics) {
         /**
          * initial State for players turn
          */
-        getInitialState: function() {
+        getInitialState: function () {
             return {
                 stats:  Statistics.getStats()
             };
         },
         render: function () {
             return (
-                <div id="stats">
+                <div>
                     <div>{ this.state.stats.map(function(stat,idx){
                         return (
                             <div key={idx} className="stat-row">
@@ -35,7 +35,5 @@ define(['react', 'stats'], function (React, Statistics) {
             );
         }
     });
-
     return Stats;
-
 });
